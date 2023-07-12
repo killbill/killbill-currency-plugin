@@ -36,6 +36,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.google.common.collect.ImmutableMap;
+
 public class TestStaticCurrencyPluginApi {
 
     private final UUID kbTenantId = null;
@@ -77,9 +79,9 @@ public class TestStaticCurrencyPluginApi {
 
         dao.addCurrencyRates("USD",
                              d1,
-                             Map.of("BRL", new BigDecimal("0.45721"),
-                                    "EUR", new BigDecimal("1.38045"),
-                                    "GBP", new BigDecimal("1.61650")),
+                             ImmutableMap.of("BRL", new BigDecimal("0.45721"),
+                                             "EUR", new BigDecimal("1.38045"),
+                                             "GBP", new BigDecimal("1.61650")),
                              clock.getUTCNow(),
                              kbTenantId);
 
@@ -112,9 +114,9 @@ public class TestStaticCurrencyPluginApi {
 
         dao.addCurrencyRates("USD",
                              d2,
-                             Map.of("BRL", new BigDecimal("0.45731"),
-                                    "EUR", new BigDecimal("1.38055"),
-                                    "GBP", new BigDecimal("1.61660")),
+                             ImmutableMap.of("BRL", new BigDecimal("0.45731"),
+                                             "EUR", new BigDecimal("1.38055"),
+                                             "GBP", new BigDecimal("1.61660")),
                              clock.getUTCNow(),
                              kbTenantId);
 

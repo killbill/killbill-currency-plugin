@@ -99,7 +99,7 @@ public class CurrencyDao extends PluginDao {
 
     public Set<String> getDistinctBaseCurrencies(@Nullable final UUID kbTenantId) throws SQLException {
         return execute(dataSource.getConnection(),
-                       new WithConnectionCallback<>() {
+                       new WithConnectionCallback<Set<String>>() {
                            @Override
                            public Set<String> withConnection(final Connection conn) {
                                SelectConditionStep<Record1<String>> step = DSL.using(conn, dialect, settings)
@@ -123,7 +123,7 @@ public class CurrencyDao extends PluginDao {
 
     public Result<CurrencyUpdatesRecord> getHistoricalUpdatesForBaseCurrency(final String baseCurrency, @Nullable final UUID kbTenantId) throws SQLException {
         return execute(dataSource.getConnection(),
-                       new WithConnectionCallback<>() {
+                       new WithConnectionCallback<Result<CurrencyUpdatesRecord>>() {
                            @Override
                            public Result<CurrencyUpdatesRecord> withConnection(final Connection conn) {
                                SelectConditionStep<CurrencyUpdatesRecord> step = DSL.using(conn, dialect, settings)
@@ -140,7 +140,7 @@ public class CurrencyDao extends PluginDao {
 
     public Result<CurrencyRatesRecord> getRatesForCurrencyUpdate(final int currencyUpdateId, @Nullable final UUID kbTenantId) throws SQLException {
         return execute(dataSource.getConnection(),
-                       new WithConnectionCallback<>() {
+                       new WithConnectionCallback<Result<CurrencyRatesRecord>>() {
                            @Override
                            public Result<CurrencyRatesRecord> withConnection(final Connection conn) {
                                SelectConditionStep<CurrencyRatesRecord> step = DSL.using(conn, dialect, settings)
