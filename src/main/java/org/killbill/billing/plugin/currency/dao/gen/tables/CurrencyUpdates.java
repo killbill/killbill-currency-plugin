@@ -134,7 +134,7 @@ public class CurrencyUpdates extends TableImpl<CurrencyUpdatesRecord> {
         return Keys.KEY_CURRENCY_UPDATES_PRIMARY;
     }
 
-    @Override
+    //@Override
     public List<UniqueKey<CurrencyUpdatesRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.KEY_CURRENCY_UPDATES_RECORD_ID);
     }

@@ -33,11 +33,13 @@ import org.joda.time.DateTimeZone;
 import org.jooq.Result;
 import org.killbill.billing.catalog.api.Currency;
 import org.killbill.billing.currency.api.Rate;
-import org.killbill.billing.currency.api.boilerplate.RateImp;
 import org.killbill.billing.currency.plugin.api.CurrencyPluginApi;
+import org.killbill.billing.plugin.currency.boilerplate.RateImp;
 import org.killbill.billing.plugin.currency.dao.CurrencyDao;
 import org.killbill.billing.plugin.currency.dao.gen.tables.records.CurrencyRatesRecord;
 import org.killbill.billing.plugin.currency.dao.gen.tables.records.CurrencyUpdatesRecord;
+
+import com.google.common.collect.ImmutableSet;
 
 public class StaticCurrencyPluginApi implements CurrencyPluginApi {
 
@@ -53,7 +55,7 @@ public class StaticCurrencyPluginApi implements CurrencyPluginApi {
             return currencyDao.getDistinctBaseCurrencies(null)
                               .stream()
                               .map(Currency::valueOf)
-                              .collect(Collectors.toUnmodifiableSet());
+                              .collect(Collectors.toSet());
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -90,7 +92,7 @@ public class StaticCurrencyPluginApi implements CurrencyPluginApi {
         try {
             final CurrencyUpdatesRecord latestUpdateForBaseCurrency = currencyDao.getLatestUpdateForBaseCurrency(String.valueOf(baseCurrency), null);
             if (latestUpdateForBaseCurrency == null) {
-                return Set.of();
+                return ImmutableSet.of();
             }
 
             return getRatesForCurrencyUpdate(baseCurrency, latestUpdateForBaseCurrency);
@@ -104,7 +106,7 @@ public class StaticCurrencyPluginApi implements CurrencyPluginApi {
         try {
             final Result<CurrencyUpdatesRecord> historicalUpdatesForBaseCurrency = currencyDao.getHistoricalUpdatesForBaseCurrency(String.valueOf(baseCurrency), null);
             if (historicalUpdatesForBaseCurrency == null) {
-                return Set.of();
+                return ImmutableSet.of();
             }
 
             for (final CurrencyUpdatesRecord currencyUpdatesRecord : historicalUpdatesForBaseCurrency) {
@@ -114,7 +116,7 @@ public class StaticCurrencyPluginApi implements CurrencyPluginApi {
                 }
             }
 
-            return Set.of();
+            return ImmutableSet.of();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +135,7 @@ public class StaticCurrencyPluginApi implements CurrencyPluginApi {
                                                               .build();
                               }
                           })
-                          .collect(Collectors.toUnmodifiableSet());
+                          .collect(Collectors.toSet());
     }
 
     private static DateTime toDateTime(final LocalDateTime conversionDate) {
